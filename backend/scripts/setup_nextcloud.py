@@ -9,11 +9,28 @@ def run_command(command):
         print(f"Error executing command: {e}")
         exit(1)
 
+<<<<<<< HEAD
 def install_dependencies():
     """Install necessary dependencies for Nextcloud."""
     print("Installing Nginx, PHP, MariaDB, and other dependencies...")
     run_command("sudo apt update && sudo apt upgrade -y")
     run_command("sudo apt install -y nginx php-fpm php-mysql php-zip php-gd php-mbstring php-curl php-xml php-bcmath mariadb-server unzip")
+=======
+def start_mariadb():
+    """Ensure MariaDB is running."""
+    print("Checking if MariaDB is running...")
+    try:
+        run_command("sudo systemctl start mariadb")
+        print("MariaDB started successfully.")
+    except:
+        print("Failed to start MariaDB. Please ensure it's installed correctly.")
+        exit(1)
+
+def install_dependencies():
+    """Install necessary dependencies for Nextcloud."""
+    print("Installing required dependencies...")
+    run_command("sudo apt install -y --no-install-recommends wget nginx php-fpm php-mysql php-zip php-gd php-mbstring php-curl php-xml php-bcmath mariadb-server unzip")
+>>>>>>> 195c2b7 (Checkpoint: Working purge and setup scripts)
 
 def configure_database(db_name, db_user, db_password):
     """Configure MariaDB for Nextcloud."""
@@ -55,7 +72,11 @@ def configure_nginx():
     """
     # Write the Nginx config file with elevated privileges
     run_command(f"echo '{nginx_config}' | sudo tee /etc/nginx/sites-available/nextcloud > /dev/null")
+<<<<<<< HEAD
     run_command("sudo ln -s /etc/nginx/sites-available/nextcloud /etc/nginx/sites-enabled/")
+=======
+    run_command("sudo ln -sf /etc/nginx/sites-available/nextcloud /etc/nginx/sites-enabled/")
+>>>>>>> 195c2b7 (Checkpoint: Working purge and setup scripts)
     run_command("sudo nginx -t")
     run_command("sudo systemctl restart nginx")
 
@@ -76,6 +97,12 @@ def run_installation():
     db_user = "nextcloud_user"
     db_password = "strongpassword"
 
+<<<<<<< HEAD
+=======
+    # Ensure MariaDB is running
+    start_mariadb()
+    
+>>>>>>> 195c2b7 (Checkpoint: Working purge and setup scripts)
     # Execute installation steps
     install_dependencies()
     configure_database(db_name, db_user, db_password)
@@ -85,4 +112,7 @@ def run_installation():
 
 if __name__ == "__main__":
     run_installation()
+<<<<<<< HEAD
 
+=======
+>>>>>>> 195c2b7 (Checkpoint: Working purge and setup scripts)
